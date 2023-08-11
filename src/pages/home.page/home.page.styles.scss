@@ -1,0 +1,21 @@
+
+.div-app-title-container {
+    
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    .app-title {
+        font-size: 35px;
+        margin-left: 2vw;
+        text-align: center;
+    }
+
+    .img-title-logo {
+        margin-right: 2vw;
+        width: 52px;
+        height: 52px;
+    }
+}
