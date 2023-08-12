@@ -1058,3 +1058,10 @@ export const openLinkNewWindow = (url) => {
         
     }
 }
+
+const BASE_URL = 'https://api.newscatcherapi.com/v2/';
+
+export const API_ENDPOINTS = {
+    LATEST_NEWS : BASE_URL + "latest_headlines?countries=IN",
+    SEARCH_NEWS : BASE_URL + ""
+}
