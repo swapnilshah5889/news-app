@@ -37,54 +37,54 @@ const HomePage = () => {
     // Fetch articles api
     const fetchArticles = async () => {
         setIsLoading(true);
-        // setTimeout(() => {
-        //     try {
+        setTimeout(() => {
+            try {
             
-        //         setArticles(ArticlesJson);
-        //         setIsLoading(false);
-        //         setTotalPages(10);
-        //         window.scrollTo(0, 0);
+                setArticles(ArticlesJson);
+                setIsLoading(false);
+                setTotalPages(10);
+                window.scrollTo(0, 0);
     
-        //     } catch (error) {
-        //         console.error(error);
-        //         setIsLoading(false);
+            } catch (error) {
+                console.error(error);
+                setIsLoading(false);
+            }
+        }, 3000);
+
+        // try {
+
+        //     const config = {
+        //         headers: {
+        //             'x-api-key':'6tkOyL3X-Eqdzmw4u20ZRooKhtkF5EMQzNuvrSLkg7E'
+        //         }
         //     }
-        // }, 3000);
-
-        try {
-
-            const config = {
-                headers: {
-                    'x-api-key':'6tkOyL3X-Eqdzmw4u20ZRooKhtkF5EMQzNuvrSLkg7E'
-                }
-            }
             
-            const response = await axios.get(
-                API_ENDPOINTS.LATEST_NEWS + "&page="+page,
-                config);
+        //     const response = await axios.get(
+        //         API_ENDPOINTS.LATEST_NEWS + "&page="+page,
+        //         config);
             
             
-            if(response.status === 200) {
-                console.log(response.data);
-                const jsonData = response.data;
-                if(!totalPages) {
-                    setTotalPages(jsonData.total_pages);
-                }
-                setArticles(jsonData.articles);
+        //     if(response.status === 200) {
+        //         console.log(response.data);
+        //         const jsonData = response.data;
+        //         if(!totalPages) {
+        //             setTotalPages(jsonData.total_pages);
+        //         }
+        //         setArticles(jsonData.articles);
 
-            }
-            // Show Error & Try Again
-            else {
-                console.log("Error");
-                console.log(response);
-            }
-            setIsLoading(false);
-            window.scrollTo(0, 0);
+        //     }
+        //     // Show Error & Try Again
+        //     else {
+        //         console.log("Error");
+        //         console.log(response);
+        //     }
+        //     setIsLoading(false);
+        //     window.scrollTo(0, 0);
 
-        } catch (error) {
-            console.log(error);
-            setIsLoading(false);
-        }
+        // } catch (error) {
+        //     console.log(error);
+        //     setIsLoading(false);
+        // }
     }
 
     // Fetch new articles on page change
