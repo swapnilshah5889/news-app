@@ -83,8 +83,8 @@ const HomePage = () => {
                     />
 
                     {/* Pagination */}
-                    <div style={{color:"red ", display:'flex', justifyContent:'center', alignItems:'center', marginTop:'50px', marginBottom:'30px'}}>
-                        <Pagination count={10} />
+                    <div style={{display:'flex', justifyContent:'center', alignItems:'center', marginTop:'50px', marginBottom:'30px'}}>
+                        <Pagination count={10} color="primary"/>
                     </div>
                 </div>
                 </Fade>
