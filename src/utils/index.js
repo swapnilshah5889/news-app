@@ -1050,3 +1050,11 @@ export const ArticlesJson = [
             "_id": "2e480ab79a53083017fdc5832444fc97"
         }
 ];
+
+export const openLinkNewWindow = (url) => {
+    try {
+        window.open(url, '_blank');
+    } catch (error) {
+        
+    }
+}

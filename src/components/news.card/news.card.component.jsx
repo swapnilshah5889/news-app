@@ -1,21 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Card, CardMedia, CardContent, Typography, CardActions, Button } from '@mui/material';
 import { height } from '@mui/system';
 import './news.card.styles.scss';
 
-const NewsCard = ({articleJson}) => {
+const NewsCard = ({articleJson, index, onClick}) => {
 
-    const openInNewTab = (url) => {
-        window.open(url, "_blank", "noreferrer");
-    };
 
     const handleLearnMore = () => {
-        console.log("Clicked on");
-        openInNewTab(articleJson.link);
+        window.open(articleJson.link, "_blank", "noreferrer");
     } 
 
     return (
         <Card 
+            onClick={() => {onClick(index);}}
             sx={{
                 backgroundColor:'#272727',
                 cursor: 'pointer',

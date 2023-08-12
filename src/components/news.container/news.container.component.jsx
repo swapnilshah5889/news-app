@@ -1,10 +1,23 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './news.container.styles.scss';
 import NewsCard from '../news.card/news.card.component';
 import { Grid } from '@mui/material';
+import NewsDetailedModal from '../news.detailed/news.detailed.component';
 
 const NewsGrid = ({articlesJson}) => {
 
+    const [isDetailedCardOpen, setDetailedCardOpen] = useState(false);
+    const [selectedArticle, setSelectedArticle] = useState(-1);
+
+    const handleModalClose = () => {
+        setDetailedCardOpen(false);
+    }
+
+    const openDetailedModal = (index) => {
+        setSelectedArticle(index);
+        setDetailedCardOpen(true);
+        console.log(index);
+    }
     
     return (
         <div
@@ -24,14 +37,24 @@ const NewsGrid = ({articlesJson}) => {
                             xs={4} sm={4} md={4}
                             >
                             <NewsCard 
+                                index={index}
                                 articleJson={article}
+                                onClick={openDetailedModal}
                             /> 
                         </Grid>
                     )
                 })}
             </Grid>
 
-
+            {/* News Detailed Modal */}
+            
+            <NewsDetailedModal
+                isOpen={isDetailedCardOpen}
+                handleClose={handleModalClose}
+                articleJson={articlesJson[selectedArticle]}
+            />
+        
+            
         </div>
     )
 }

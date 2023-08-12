@@ -1,0 +1,28 @@
+$small-screen: 500px;
+$medium-screen: 1024px;
+$small-height: 600px;
+$medium-height: 750px;
+
+.div-icon-text-ctn {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    .svgicon-icon{
+        border-radius: 50px;
+        height: 30px;
+        width: 30px; 
+        margin-right: 10px;
+
+        @media (max-width: $small-screen) {
+        }
+    }
+
+    .svgicon-text {
+        display: block;
+        @media (max-width: $small-screen) {
+            display: none;
+        }
+    }
+
+}
