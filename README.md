@@ -11,6 +11,9 @@ Welcome to the News App repository! This is a simple yet powerful news applicati
 - Pagination: Enjoy seamless browsing through multiple pages of news articles without missing a beat.
 - User-Friendly Interface: The intuitive user interface makes navigation effortless, allowing you to find news articles quickly.
 
+![Screenshot 1](https://github.com/swapnilshah5889/news-app/blob/main/src/assets/screenshots/screenshot_1.png)
+![Screenshot 2](https://github.com/swapnilshah5889/news-app/blob/main/src/assets/screenshots/screenshot_2.png)
+
 # How to Use
 - Clone this repository to your local machine.
 - Install the necessary dependencies using npm install or yarn install.
