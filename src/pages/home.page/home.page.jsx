@@ -4,6 +4,9 @@ import Logo from '../../assets/app-logo.png';
 import NewsGrid from "../../components/news.container/news.container.component";
 import { ArticlesJson } from "../../utils";
 import { useEffect, useState } from "react";
+import MyLoader from "../../components/loader/loader.component";
+import Fade from "@mui/material/Fade";
+
 const HomePage = () => {
 
     const [articles, setArticles] = useState([]);
@@ -12,25 +15,30 @@ const HomePage = () => {
     // Fetch articles api
     const fetchArticles = async () => {
         setIsLoading(true);
-        try {
+        setTimeout(() => {
+            try {
             
-            setArticles(ArticlesJson);
-            setIsLoading(false);
-
-        } catch (error) {
-            console.error(error);
-            setIsLoading(false);
-        }
+                setArticles(ArticlesJson);
+                setIsLoading(false);
+    
+            } catch (error) {
+                console.error(error);
+                setIsLoading(false);
+            }
+        }, 5000);
     }
 
+
     useEffect(() => {
-      fetchArticles();
-    }, [])
+
+        fetchArticles();
     
+    }, [])
 
-
+    
     return (
-        <div>
+        <>
+        
             {/* Heading */}
             <div
                 className="div-app-title-container"
@@ -48,17 +56,42 @@ const HomePage = () => {
                 </Typography>
             </div>
 
-            {/* News Feed */}
-            <NewsGrid 
-                articlesJson={articles}
-            />
+            {  isLoading ? (
+                <div
+                    style={{
+                        height:"70vh",
+                        display:"flex",
+                        justifyContent:"center",
+                        alignItems:"center",
+                        margin:"20px"
+                    }}>
+                    <MyLoader/>
+                </div>
+            ) : (
+                
+                <Fade
+                in enter exit 
+                timeout={{
+                    appear: 1000,
+                    enter: 700,
+                    exit: 700,
+                   }}>
+                <div>
+                    {/* News Feed */}
+                    <NewsGrid 
+                        articlesJson={articles}
+                    />
 
-            {/* Pagination */}
-            <div style={{color:"red ", display:'flex', justifyContent:'center', alignItems:'center', marginTop:'50px', marginBottom:'30px'}}>
-                <Pagination count={10} />
-            </div>
-
-        </div>
+                    {/* Pagination */}
+                    <div style={{color:"red ", display:'flex', justifyContent:'center', alignItems:'center', marginTop:'50px', marginBottom:'30px'}}>
+                        <Pagination count={10} />
+                    </div>
+                </div>
+                </Fade>
+            )
+            }
+        
+        </> 
     )
 }
 
