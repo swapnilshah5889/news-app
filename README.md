@@ -1,8 +1,19 @@
-# React + Vite
+# News App using Vite + React
+Live Link : https://news-app-swapnilshah5889.netlify.app/
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Description
+Welcome to the News App repository! This is a simple yet powerful news application built using Vite and React. Stay up-to-date with the latest news from around the world, all in one place.
 
-Currently, two official plugins are available:
+# Features
+- Latest News: Get access to the most recent news articles from various sources.
+- Responsive Design: Whether you're using a desktop, tablet, or mobile device, the app provides an optimal viewing experience.
+- Real-time Updates: The app uses axios to fetch the latest news from the Newscatcher API, ensuring you stay informed.
+- Pagination: Enjoy seamless browsing through multiple pages of news articles without missing a beat.
+- User-Friendly Interface: The intuitive user interface makes navigation effortless, allowing you to find news articles quickly.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# How to Use
+- Clone this repository to your local machine.
+- Install the necessary dependencies using npm install or yarn install.
+- Run the app using npm run dev or yarn dev.
+
+Explore the world of news at your fingertips! Dive into the code to learn how the app fetches, displays, and paginates news articles. Feel free to contribute enhancements or report issues if you find them. Happy news reading!
