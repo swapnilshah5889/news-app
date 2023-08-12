@@ -153,14 +153,18 @@ const HomePage = () => {
                 </div>  
             }   
 
-            <div style={{
+            {totalPages &&
+                <div style={{
                     margin:'0%',
                     display:'flex', 
                     justifyContent:'space-evenly'
                 }}>
                     <HeaderText keyText={"Powered By:"} link={"newscatcherapi.com"} valueText={"newscatcherapi.com"} />
                     <HeaderText keyText={"Created By:"} link={"https://swapnilshah5889.github.io/"} valueText={"Swapnil Shah"} />
-            </div>
+                </div>
+            }
+
+            
         </> 
     )
 }
