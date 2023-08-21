@@ -1,8 +1,29 @@
-import React, { useState } from 'react'
+import Fade from '@mui/material/Fade';
 import './news.container.styles.scss';
 import NewsCard from '../news.card/news.card.component';
 import { Grid } from '@mui/material';
 import NewsDetailedModal from '../news.detailed/news.detailed.component';
+import { useState } from 'react';
+
+const NewsGridFader = ({articlesJson}) => {
+
+    return (
+        <Fade
+            in
+            enter
+            exit
+            timeout={{ 
+                appear: 1500,
+                enter: 1000,
+                exit: 1500,
+            }}
+        >
+            <div>
+                <NewsGrid articlesJson={articlesJson} />
+            </div>
+        </Fade>
+    );
+};
 
 const NewsGrid = ({articlesJson}) => {
 
@@ -59,4 +80,4 @@ const NewsGrid = ({articlesJson}) => {
     )
 }
 
-export default NewsGrid;
+export default NewsGridFader;
