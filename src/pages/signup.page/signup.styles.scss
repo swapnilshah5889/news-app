@@ -1,0 +1,21 @@
+.div-signup-container {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color:white;
+
+    .card-signup {
+        max-width: 500px;
+        margin: 20px;
+        padding: 25px;
+        border-radius: 10px;
+        background-color: #2a2a2a;
+        color: white;
+        
+        .textfield-input-form {
+            margin: 10px;
+        }
+    }
+}
