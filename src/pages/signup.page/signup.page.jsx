@@ -5,6 +5,7 @@ import { InputLabel } from '../../components/text-input/text-field';
 import { useEffect, useState } from 'react';
 import InputSlider from '../../components/slider/slider.component';
 import InputButton from '../../components/button/button';
+import { PhoneInputField } from '../../components/text-input/text-field';
 
 const FormCheckBox = ({labelText, onCheckChange}) => {
     
@@ -107,20 +108,19 @@ const SignupPage = () => {
                     </Grid>
 
                         
-                    {/* Email */}
-                    <Grid item md={7} xs={12}>
-                        <MyTextField
-                        textFieldType="tel"
-                        pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                        textLabel="Number"
-                        onTextChange={(e) => {
-                            setFormInputs({...formInputs, number: e.target.value});
-                        }}
+                    {/* Phone Number */}
+                    <Grid item md={6} xs={12}>
+                        
+                        <PhoneInputField 
+                            textLabel="Number"
+                            onTextChange={(e) => {
+                                setFormInputs({...formInputs, number: e});
+                            }}
                         />
                     </Grid>
 
                     {/* DOB*/}
-                    <Grid item md={5} xs={12} >
+                    <Grid item md={6} xs={12} >
                         <Box
                         display="flex"
                         flexDirection="column"

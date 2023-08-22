@@ -1,4 +1,5 @@
 import { TextField, Typography } from "@mui/material";
+import PhoneInput from "react-phone-input-2";
 
 export const InputLabel = ({labelText}) => {
 
@@ -10,9 +11,34 @@ export const InputLabel = ({labelText}) => {
     );
 }
 
+export const PhoneInputField = ({textFieldClassName="", textLabel, onTextChange}) => {
+
+    return (
+        <div 
+        className={textFieldClassName}
+        style={{display:"flex", flexDirection:"column"}}>
+            
+            <InputLabel labelText={textLabel}/>
+            <PhoneInput
+                country={'us'}
+                specialLabel=""
+                inputStyle={{
+                    color: 'white',
+                    fontSize: '15px',
+                    height: '50px',
+                    width: '95%',
+                    paddingLeft:'10px',
+                    border: '1px solid #555',
+                    borderRadius:'5px'
+                }}
+                onChange={onTextChange}
+            />
+        </div>
+    );
+}
+
 
 const MyTextField = ({onTextChange, textLabel, textFieldClassName="", textFieldType="text"}) => {
-
   return (
     <div 
     className={textFieldClassName}
@@ -20,7 +46,6 @@ const MyTextField = ({onTextChange, textLabel, textFieldClassName="", textFieldT
         
         <InputLabel labelText={textLabel}/>
         <TextField
-            required
             type={textFieldType}
             placeholder={textLabel}
             sx={{   
@@ -46,10 +71,10 @@ const MyTextField = ({onTextChange, textLabel, textFieldClassName="", textFieldT
             },
             }}
             inputProps={{
-            sx: {
-                color: 'white',
-                fontSize: '15px',
-            },
+                sx: {
+                    color: 'white',
+                    fontSize: '15px'
+                },
             }}
             FormHelperTextProps={{
                 root: {
