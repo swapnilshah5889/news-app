@@ -20,7 +20,8 @@ export const ErrorLabel = ({labelText}) => {
     )
 }
 
-export const PhoneInputField = ({textFieldClassName="", textLabel, onTextChange, textId, textValue}) => {
+export const PhoneInputField = ({textFieldClassName="", textLabel, onTextChange, textId, 
+                            textValue, isTextError=false, textErrorMsg=""}) => {
 
     return (
         <div 
@@ -44,6 +45,11 @@ export const PhoneInputField = ({textFieldClassName="", textLabel, onTextChange,
                 }}
                 onChange={onTextChange}
             />
+            {/* Error Message */}
+            {isTextError && 
+                <ErrorLabel 
+                labelText={textErrorMsg}/>
+            }
         </div>
     );
 }

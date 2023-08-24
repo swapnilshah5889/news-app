@@ -99,7 +99,6 @@ const SignupPage = () => {
 
     // Signup User
     const handleSignup = (values, actions) => {
-        console.log(values);
         alert("Signup successful");
         actions.resetForm();
         
@@ -146,8 +145,8 @@ const SignupPage = () => {
 
     // Log formik values
     useEffect(() => {
-        console.log(formik.values);
-    }, [formik.values])
+        console.log(formik.errors);
+    }, [formik.errors])
 
     // Handle Interests Change
     const handleInterestSelect = (event) => {
@@ -158,8 +157,6 @@ const SignupPage = () => {
     
     // Handle Language Proficiencey Slider Change
     const handleSliderChange = (event, v) => {
-        // console.log(formik.values.proficiency[event.target.name]);
-        // console.log(event.target.name);
         let proficiency = {...formik.values.proficiency};
         proficiency[event.target.name].value = v;
         formik.setFieldValue('proficiency', proficiency);
@@ -227,6 +224,8 @@ const SignupPage = () => {
                         <PhoneInputField 
                             textLabel="Number"
                             textId="number"
+                            isTextError = {formik.errors.number && formik.touched.number}
+                            textErrorMsg={formik.errors.number? formik.errors.number     : ""}
                             textValue={formik.values.number}
                             onTextChange={handlePhoneNumberChange}
                         />
