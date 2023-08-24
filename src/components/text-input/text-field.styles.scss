@@ -1,0 +1,23 @@
+.phone-input-input {
+/* Add styles for the input here */
+    color: white;
+    font-size:15px;
+    height:48px;
+    width:95%;
+    padding-left:10px;
+    border:2px solid #555;
+    border-radius:5px;
+}
+
+.phone-input-input:hover {
+/* Add styles for hover and focus states of the input here */
+    border-color:#888;
+}
+.phone-input-input:focus-within, .phone-input-input:focus-visible{
+    border-color: #55a;
+}
+
+.phone-input-error {
+    border-color:#a00;
+}
+  

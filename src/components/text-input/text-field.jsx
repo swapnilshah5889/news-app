@@ -1,5 +1,6 @@
 import { TextField, Typography } from "@mui/material";
 import PhoneInput from "react-phone-input-2";
+import './text-field.styles.scss';
 
 export const InputLabel = ({labelText, labelSize = '13px'}) => {
 
@@ -34,15 +35,8 @@ export const PhoneInputField = ({textFieldClassName="", textLabel, onTextChange,
                 value={textValue}
                 country={'us'}
                 specialLabel=""
-                inputStyle={{
-                    color: 'white',
-                    fontSize: '15px',
-                    height: '50px',
-                    width: '95%',
-                    paddingLeft:'10px',
-                    border: '1px solid #555',
-                    borderRadius:'5px'
-                }}
+                inputClass={"phone-input-input"+`${isTextError?" phone-input-error":""}`}
+                
                 onChange={onTextChange}
             />
             {/* Error Message */}
