@@ -8,6 +8,7 @@ import InputButton from '../../components/button/button';
 import { PhoneInputField, ErrorLabel } from '../../components/text-input/text-field';
 import { UserValidationSchema } from '../../validations/UserSignup';
 import { useFormik } from 'formik';
+import DatePicker from '../../components/date-picker/date-picker.component';
 
 const FormCheckBox = ({labelText, onCheckChange, isChecked, checkBoxId}) => {
     
@@ -238,12 +239,12 @@ const SignupPage = () => {
                         flexDirection="column"
                         >
                             <InputLabel labelText="Date of Birth" />
-                            <input 
-                            id='dob'
-                            style={{ paddingLeft:'10px', paddingRight:'10px', height:'50px'}}
-                            type="date" 
-                            max={todayDate} 
-                            onChange={formik.handleChange}/>
+                            <DatePicker 
+                            datePickerId='dob'
+                            todayDate={todayDate}
+                            onDateChange={formik.handleChange}
+                            isDateError={formik.errors.dob && formik.touched.dob}
+                            />
                             {formik.errors.dob && formik.touched.dob && 
                                 <ErrorLabel 
                                 labelText={formik.errors.dob}/>
