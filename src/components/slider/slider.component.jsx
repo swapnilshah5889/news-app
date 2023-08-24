@@ -1,6 +1,6 @@
 import {Slider, Typography} from '@mui/material';
 
-const InputSlider = ({labelText, onSliderChange}) => {
+const InputSlider = ({labelText, onSliderChange, sliderId, sliderValue}) => {
 
     return(
         <div style={{display:'flex', alignItems:'center'}}>
@@ -8,10 +8,12 @@ const InputSlider = ({labelText, onSliderChange}) => {
                 {labelText}
             </Typography>
             <Slider
-                name={labelText}
+                id={sliderId}
+                name={sliderId}
                 onChange={onSliderChange}
                 aria-label="Always visible"
-                defaultValue={0}
+                defaultValue={sliderValue}
+                value={sliderValue}
                 step={1}
                 min={0}
                 max={10}

@@ -1,14 +1,23 @@
 import { TextField, Typography } from "@mui/material";
 import PhoneInput from "react-phone-input-2";
 
-export const InputLabel = ({labelText}) => {
+export const InputLabel = ({labelText, labelSize = '13px'}) => {
 
     return (
         <Typography 
-        style={{margin:'2px', fontSize:'13px', color:'#ccc'}}>
+        style={{margin:'2px', fontSize:{labelSize}, color:'#ccc'}}>
             {labelText}
         </Typography>
     );
+}
+
+export const ErrorLabel = ({labelText}) => {
+    return (
+        <Typography 
+        style={{margin:'2px', fontSize:'11px', color:'#e00'}}>
+            {labelText}
+        </Typography>
+    )
 }
 
 export const PhoneInputField = ({textFieldClassName="", textLabel, onTextChange, textId, textValue}) => {
@@ -40,13 +49,20 @@ export const PhoneInputField = ({textFieldClassName="", textLabel, onTextChange,
 }
 
 
-const MyTextField = ({onTextChange, textLabel, textFieldClassName="", textFieldType="text", textValue="", textId}) => {
+const MyTextField = ({onTextChange, textLabel, textFieldClassName="", textFieldType="text",
+                     textValue="", textId, isTextError=false, textErrorMsg=""}) => {
+
+
+    let colors = isTextError? ["#a00", "#f00", "#f00"] : ["#555", "#888", "#55a"];
+    
   return (
     <div 
     className={textFieldClassName}
     style={{display:"flex", flexDirection:"column"}}>
         
+        {/* Input Label */}
         <InputLabel labelText={textLabel}/>
+        {/* Input Field */}
         <TextField
             id={textId}
             value={textValue}
@@ -64,13 +80,13 @@ const MyTextField = ({onTextChange, textLabel, textFieldClassName="", textFieldT
             InputProps={{
             sx: {
                 'fieldset': {
-                    border: '2px solid #555!important',
+                    border: `2px solid ${colors[0]}!important`,
                 },
                 '&:hover fieldset': {
-                    border: '2px solid #888!important',
+                    border: `2px solid ${colors[1]}!important`,
                 },
                 '&:focus-within fieldset, &:focus-visible fieldset': {
-                    border: '2px solid #55a!important',
+                    border: `2px solid ${colors[2]}!important`,
                 },
             },
             }}
@@ -86,6 +102,11 @@ const MyTextField = ({onTextChange, textLabel, textFieldClassName="", textFieldT
                 },
             }}
             onChange={onTextChange}></TextField>
+        {/* Error Message */}
+        {isTextError && 
+            <ErrorLabel 
+            labelText={textErrorMsg}/>
+        }
     </div>
   )
 }

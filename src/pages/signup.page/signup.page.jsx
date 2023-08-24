@@ -5,17 +5,18 @@ import { InputLabel } from '../../components/text-input/text-field';
 import { useEffect, useState } from 'react';
 import InputSlider from '../../components/slider/slider.component';
 import InputButton from '../../components/button/button';
-import { PhoneInputField } from '../../components/text-input/text-field';
+import { PhoneInputField, ErrorLabel } from '../../components/text-input/text-field';
 import { UserValidationSchema } from '../../validations/UserSignup';
 import { useFormik } from 'formik';
 
-const FormCheckBox = ({labelText, onCheckChange}) => {
+const FormCheckBox = ({labelText, onCheckChange, isChecked, checkBoxId}) => {
     
     return (
         <FormControlLabel 
         control={
             <Checkbox 
-            id={labelText}
+            id={checkBoxId}
+            checked={isChecked}
             onChange={onCheckChange}
             sx={{
                 color: '#aaa',
@@ -29,20 +30,97 @@ const FormCheckBox = ({labelText, onCheckChange}) => {
     );
 } 
 
-const SignupPage = () => {
-    const todayDate = new Date().toISOString().split('T')[0];
-    const [formInputs, setFormInputs] = useState({
-        firstName:"",
-        lastName: "",
-        email: "",
-        number: "",
-        dob : "",
-        interests : [],
-        proficiency : [],
-        password: "",
-        confirmPassword : ""
-    });
+const interestsJsonArr = [
+    {
+        id:'1',
+        name:'Full Stack'
+    },
+    {
+        id:'2',
+        name:'Backend'
+    },
+    {
+        id:'3',
+        name:'Frontend'
+    },
+    {
+        id:'4',
+        name:'Testing'
+    },
+    {
+        id:'5',
+        name:'UI/UX'
+    },
+    {
+        id:'6',
+        name:'DevOPs'
+    },
+    {
+        id:'7',
+        name:'Site Reliability'
+    }
+]
 
+const langProfJsonArr = [
+    {
+        id:'1',
+        name:'Java'
+    },
+    {
+        id:'2',
+        name:'JavaScript'
+    },
+    {
+        id:'3',
+        name:'Python'
+    },
+    {
+        id:'4',
+        name:'TypeScript'
+    },
+    {
+        id:'5',
+        name:'C++'
+    },
+    {
+        id:'6',
+        name:'HTML/CSS'
+    }
+]
+
+const SignupPage = () => {
+
+    // const [formStates, setFormStates] = useState({
+    //     interse
+    // });
+
+    // Current system date
+    const todayDate = new Date().toISOString().split('T')[0];
+
+    // Signup User
+    const handleSignup = (values, actions) => {
+        console.log(values);
+        alert("Signup successful");
+        actions.resetForm();
+        
+        // Reset interests
+        let interests = {...formik.values.interests};
+        Object.keys(interests).map((key) => {
+            interests[key].checked = false;
+            return interests;
+        });
+        formik.setFieldValue('interests', interests);
+
+        // Reset language proficiency
+        let proficiency = {...formik.values.proficiency};
+        Object.keys(proficiency).map((key) => {
+            proficiency[key].value = 0;
+            return proficiency;
+        });
+        formik.setFieldValue('proficiency', proficiency);
+    }
+
+    // Formik validation
     const formik = useFormik({
         initialValues :{
             firstName:"",
@@ -50,54 +128,49 @@ const SignupPage = () => {
             email: "",
             number: "",
             dob : "",
-            interests : [],
-            proficiency : [],
+            interests : interestsJsonArr.reduce((accObj, interest) => {
+                            accObj[interest.id] = {name: interest.name, checked: false};
+                            return accObj;
+                        }, {}),
+            proficiency : langProfJsonArr.reduce((accObj, lang) => {
+                            accObj[lang.id] = {name: lang.name, value: 0};
+                            return accObj;
+                        }, {}),
             password: "",
-            confirmPassword : ""
-        }
+            confirmPassword : "",
+        },
+        validationSchema : UserValidationSchema,
+        onSubmit: handleSignup
     });
 
+
+    // Log formik values
     useEffect(() => {
-      
         console.log(formik.values);
-      
     }, [formik.values])
 
+    // Handle Interests Change
     const handleInterestSelect = (event) => {
-        let interests = [...formik.values.interests];
-            
-        if(event.target.checked) {
-            interests.push(event.target.id);
-        }
-        else {
-            interests = interests.filter(function(item) {
-                return item !== event.target.id;
-            })
-        }
-
+        let interests = {...formik.values.interests};
+        interests[event.target.id].checked = !interests[event.target.id].checked;
         formik.setFieldValue('interests', interests);
     };
     
+    // Handle Language Proficiencey Slider Change
     const handleSliderChange = (event, v) => {
+        // console.log(formik.values.proficiency[event.target.name]);
+        // console.log(event.target.name);
         let proficiency = {...formik.values.proficiency};
-        proficiency[event.target.name] = v;
+        proficiency[event.target.name].value = v;
         formik.setFieldValue('proficiency', proficiency);
     }
 
-    const handleSignup = async (event) => {
-        event.preventDefault();
-        try {
-            const isValid = await UserValidationSchema.validate(formInputs);
-            console.log(isValid);
-        } catch (error) {
-            console.log(error.errors);
-        }
-    }
-
+    // Handle phone number change
     const handlePhoneNumberChange = async (val) => {
         formik.setFieldValue('number', val);
     }
 
+    // Return signup container
     return (
         <div className='div-signup-container'>
 
@@ -116,6 +189,8 @@ const SignupPage = () => {
                         style={{margin:'20px'}}
                         textLabel="First Name"
                         textId="firstName"
+                        isTextError = {formik.errors.firstName && formik.touched.firstName}
+                        textErrorMsg={formik.errors.firstName? formik.errors.firstName : ""}
                         textValue={formik.values.firstName}
                         onTextChange={formik.handleChange}
                         />
@@ -126,6 +201,8 @@ const SignupPage = () => {
                         <MyTextField
                         textLabel="Last Name"
                         textId="lastName"
+                        isTextError = {formik.errors.lastName && formik.touched.lastName}
+                        textErrorMsg={formik.errors.lastName? formik.errors.lastName : ""}
                         textValue={formik.values.lastName}
                         onTextChange={formik.handleChange}
                         />
@@ -137,6 +214,8 @@ const SignupPage = () => {
                         textFieldType="email"
                         textLabel="Email"
                         textId="email"
+                        isTextError = {formik.errors.email && formik.touched.email}
+                        textErrorMsg={formik.errors.email? formik.errors.email : ""}
                         textValue={formik.values.email}
                         onTextChange={formik.handleChange}
                         />
@@ -166,24 +245,39 @@ const SignupPage = () => {
                             type="date" 
                             max={todayDate} 
                             onChange={formik.handleChange}/>
+                            {formik.errors.dob && formik.touched.dob && 
+                                <ErrorLabel 
+                                labelText={formik.errors.dob}/>
+                            }
                         </Box>
                     </Grid>
 
                     {/* Interests */}
                     <Grid item xs={12}>
                         <div style={{display:'flex', flexDirection:'column'}}>
-                            <Typography>Interests</Typography>
+                            {/* Title Label */}
+                            <InputLabel labelText="Interests" />
+                            {/* Error Label */}
+                            {formik.errors.interests && formik.touched.interests && 
+                                <ErrorLabel 
+                                labelText={formik.errors.interests}/>
+                            }
+                            {/* Interests' Checkboxes */}
                             <div style={{display:'flex', flexWrap:'wrap'}}>
-                                <FormCheckBox
-                                    labelText="Full Stack"
-                                    onCheckChange={handleInterestSelect}
-                                />
-                                <FormCheckBox labelText="Backend" onCheckChange={handleInterestSelect} />
-                                <FormCheckBox labelText="Frontend" onCheckChange={handleInterestSelect}/>
-                                <FormCheckBox labelText="Testing" onCheckChange={handleInterestSelect}/>
-                                <FormCheckBox labelText="UI/UX" onCheckChange={handleInterestSelect}/>
-                                <FormCheckBox labelText="DevOPs" onCheckChange={handleInterestSelect}/>
-                                <FormCheckBox labelText="Site Reliability" onCheckChange={handleInterestSelect}/>
+
+                                {formik.values.interests && 
+                                    Object.keys(formik.values.interests).map((key) => {
+                                    return (          
+                                            <FormCheckBox
+                                            key={key}
+                                            checkBoxId={key}
+                                            isChecked={formik.values.interests[key].checked}
+                                            labelText={formik.values.interests[key].name}
+                                            onCheckChange={handleInterestSelect}
+                                            />
+                    
+                                    ); 
+                                })}
                             </div>
                         </div>
                     </Grid>
@@ -191,27 +285,20 @@ const SignupPage = () => {
                     {/* Language Proficiency */}
                     <Grid item xs={12}>
                         <div style={{display:'flex', flexDirection:'column'}}>
-                            <Typography>Language Proficiency</Typography>
-                            <InputSlider 
-                                onSliderChange={handleSliderChange}
-                                labelText="Java"
-                            />
-                            <InputSlider 
-                                onSliderChange={handleSliderChange}
-                                labelText="Javascript"
-                            />
-                            <InputSlider 
-                                onSliderChange={handleSliderChange}
-                                labelText="Python"
-                            />
-                            <InputSlider 
-                                onSliderChange={handleSliderChange}
-                                labelText="Typescript"
-                            />
-                            <InputSlider 
-                                onSliderChange={handleSliderChange}
-                                labelText="C++"
-                            />
+                            <InputLabel labelText="Language Proficiency" />
+                            {formik.values.proficiency && 
+                                Object.keys(formik.values.proficiency).map((key) => {
+                                    return (   
+                                        <InputSlider 
+                                        key={key}
+                                        sliderId={key}
+                                        sliderValue={formik.values.proficiency[key].value}
+                                        onSliderChange={handleSliderChange}
+                                        labelText={formik.values.proficiency[key].name}/>
+                                    );
+                                })
+                            }
+                        
                         </div>
                     </Grid> 
 
@@ -221,6 +308,8 @@ const SignupPage = () => {
                         textId="password"
                         textFieldType='password'
                         textLabel="Password"
+                        isTextError = {formik.errors.password && formik.touched.password}
+                        textErrorMsg={formik.errors.password? formik.errors.password : ""}
                         textValue={formik.values.password}
                         onTextChange={formik.handleChange}
                         />
@@ -232,6 +321,8 @@ const SignupPage = () => {
                         textId="confirmPassword"
                         textFieldType='password'
                         textLabel="Confirm Password"
+                        isTextError = {formik.errors.confirmPassword && formik.touched.confirmPassword}
+                        textErrorMsg={formik.errors.confirmPassword? formik.errors.confirmPassword : ""}
                         textValue={formik.values.confirmPassword}
                         onTextChange={formik.handleChange}
                         />
@@ -247,7 +338,7 @@ const SignupPage = () => {
                             <InputButton 
                                 buttonText={"Sign Up"}
                                 buttonVariant="contained"
-                                onButtonClick = {handleSignup}
+                                onButtonClick = {formik.handleSubmit}
                             />
                         </Box>
                     </Grid>
