@@ -6,6 +6,8 @@ import { useEffect, useState } from 'react';
 import InputSlider from '../../components/slider/slider.component';
 import InputButton from '../../components/button/button';
 import { PhoneInputField } from '../../components/text-input/text-field';
+import { UserValidationSchema } from '../../validations/UserSignup';
+import { useFormik } from 'formik';
 
 const FormCheckBox = ({labelText, onCheckChange}) => {
     
@@ -29,19 +31,41 @@ const FormCheckBox = ({labelText, onCheckChange}) => {
 
 const SignupPage = () => {
     const todayDate = new Date().toISOString().split('T')[0];
-    const [formInputs, setFormInputs] = useState({});
+    const [formInputs, setFormInputs] = useState({
+        firstName:"",
+        lastName: "",
+        email: "",
+        number: "",
+        dob : "",
+        interests : [],
+        proficiency : [],
+        password: "",
+        confirmPassword : ""
+    });
+
+    const formik = useFormik({
+        initialValues :{
+            firstName:"",
+            lastName: "",
+            email: "",
+            number: "",
+            dob : "",
+            interests : [],
+            proficiency : [],
+            password: "",
+            confirmPassword : ""
+        }
+    });
 
     useEffect(() => {
       
-        console.log(formInputs);
+        console.log(formik.values);
       
-    }, [formInputs])
+    }, [formik.values])
 
     const handleInterestSelect = (event) => {
-        let interests = [];
-        if('interests' in formInputs) {
-            interests = [...formInputs['interests']];
-        }
+        let interests = [...formik.values.interests];
+            
         if(event.target.checked) {
             interests.push(event.target.id);
         }
@@ -51,17 +75,27 @@ const SignupPage = () => {
             })
         }
 
-        setFormInputs({...formInputs, interests});
+        formik.setFieldValue('interests', interests);
     };
     
     const handleSliderChange = (event, v) => {
-        let proficiency = {};
-        if('proficiency' in formInputs) {
-            proficiency = {...formInputs['proficiency']};
-        }
+        let proficiency = {...formik.values.proficiency};
         proficiency[event.target.name] = v;
+        formik.setFieldValue('proficiency', proficiency);
+    }
 
-        setFormInputs({...formInputs, proficiency});
+    const handleSignup = async (event) => {
+        event.preventDefault();
+        try {
+            const isValid = await UserValidationSchema.validate(formInputs);
+            console.log(isValid);
+        } catch (error) {
+            console.log(error.errors);
+        }
+    }
+
+    const handlePhoneNumberChange = async (val) => {
+        formik.setFieldValue('number', val);
     }
 
     return (
@@ -70,6 +104,7 @@ const SignupPage = () => {
             {/* Title */}
             <Typography >Sign Up Form</Typography>
             
+            {/* Singup Card */}
             <Card
                 className='card-signup'>
 
@@ -80,9 +115,9 @@ const SignupPage = () => {
                         <MyTextField
                         style={{margin:'20px'}}
                         textLabel="First Name"
-                        onTextChange={(e) => {
-                            setFormInputs({...formInputs, firstName: e.target.value});
-                        }}
+                        textId="firstName"
+                        textValue={formik.values.firstName}
+                        onTextChange={formik.handleChange}
                         />
                     </Grid>
                 
@@ -90,9 +125,9 @@ const SignupPage = () => {
                     <Grid item xs={6}>
                         <MyTextField
                         textLabel="Last Name"
-                        onTextChange={(e) => {
-                            setFormInputs({...formInputs, lastName: e.target.value});
-                        }}
+                        textId="lastName"
+                        textValue={formik.values.lastName}
+                        onTextChange={formik.handleChange}
                         />
                     </Grid>
                 
@@ -101,21 +136,20 @@ const SignupPage = () => {
                         <MyTextField
                         textFieldType="email"
                         textLabel="Email"
-                        onTextChange={(e) => {
-                            setFormInputs({...formInputs, email: e.target.value});
-                        }}
+                        textId="email"
+                        textValue={formik.values.email}
+                        onTextChange={formik.handleChange}
                         />
                     </Grid>
-
-                        
+  
                     {/* Phone Number */}
                     <Grid item md={6} xs={12}>
                         
                         <PhoneInputField 
                             textLabel="Number"
-                            onTextChange={(e) => {
-                                setFormInputs({...formInputs, number: e});
-                            }}
+                            textId="number"
+                            textValue={formik.values.number}
+                            onTextChange={handlePhoneNumberChange}
                         />
                     </Grid>
 
@@ -127,12 +161,11 @@ const SignupPage = () => {
                         >
                             <InputLabel labelText="Date of Birth" />
                             <input 
+                            id='dob'
                             style={{ paddingLeft:'10px', paddingRight:'10px', height:'50px'}}
                             type="date" 
                             max={todayDate} 
-                            onChange={(e)=> {
-                                setFormInputs({...formInputs, dob: e.target.value});
-                            }}/>
+                            onChange={formik.handleChange}/>
                         </Box>
                     </Grid>
 
@@ -185,22 +218,22 @@ const SignupPage = () => {
                     {/* Password */}
                     <Grid item md={6} xs={12}>
                         <MyTextField
+                        textId="password"
                         textFieldType='password'
                         textLabel="Password"
-                        onTextChange={(e) => {
-                            setFormInputs({...formInputs, password: e.target.value});
-                        }}
+                        textValue={formik.values.password}
+                        onTextChange={formik.handleChange}
                         />
                     </Grid>
 
                     {/* Confirm Password */}
                     <Grid item md={6} xs={12}>
                         <MyTextField
+                        textId="confirmPassword"
                         textFieldType='password'
                         textLabel="Confirm Password"
-                        onTextChange={(e) => {
-                            setFormInputs({...formInputs, confirmPassword: e.target.value});
-                        }}
+                        textValue={formik.values.confirmPassword}
+                        onTextChange={formik.handleChange}
                         />
                     </Grid>
 
@@ -214,10 +247,10 @@ const SignupPage = () => {
                             <InputButton 
                                 buttonText={"Sign Up"}
                                 buttonVariant="contained"
+                                onButtonClick = {handleSignup}
                             />
                         </Box>
                     </Grid>
-                        
                     
                 </Grid>
 

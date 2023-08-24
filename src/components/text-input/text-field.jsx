@@ -11,7 +11,7 @@ export const InputLabel = ({labelText}) => {
     );
 }
 
-export const PhoneInputField = ({textFieldClassName="", textLabel, onTextChange}) => {
+export const PhoneInputField = ({textFieldClassName="", textLabel, onTextChange, textId, textValue}) => {
 
     return (
         <div 
@@ -20,6 +20,8 @@ export const PhoneInputField = ({textFieldClassName="", textLabel, onTextChange}
             
             <InputLabel labelText={textLabel}/>
             <PhoneInput
+                id={textId}
+                value={textValue}
                 country={'us'}
                 specialLabel=""
                 inputStyle={{
@@ -38,7 +40,7 @@ export const PhoneInputField = ({textFieldClassName="", textLabel, onTextChange}
 }
 
 
-const MyTextField = ({onTextChange, textLabel, textFieldClassName="", textFieldType="text"}) => {
+const MyTextField = ({onTextChange, textLabel, textFieldClassName="", textFieldType="text", textValue="", textId}) => {
   return (
     <div 
     className={textFieldClassName}
@@ -46,6 +48,8 @@ const MyTextField = ({onTextChange, textLabel, textFieldClassName="", textFieldT
         
         <InputLabel labelText={textLabel}/>
         <TextField
+            id={textId}
+            value={textValue}
             type={textFieldType}
             placeholder={textLabel}
             sx={{   
